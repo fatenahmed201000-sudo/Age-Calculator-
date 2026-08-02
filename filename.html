@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Age calculator</title>
+<style>
+body {
+    font-family: Arial;
+    background-color: #f5f5f5;
+    text-align: center;
+    padding: 20px;
+}
+input {
+    padding: 10px;
+    margin: 5px;
+    width: 100px;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+}
+button {
+    padding: 12px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+button:hover {
+    background-color: #45a049;
+}
+#result {
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid #4CAF50;
+    background-color: #f0fff0;
+    font-size: 18px;
+    color: #333;
+    text-align: right;
+}
+</style>
+</head>
+<body>
+
+<h1>Age Calculator</h1>
+<p>Enter your date birth</p>
+
+<input type="number" placeholder="day" id="day" min="1" max="31">
+<input type="number" placeholder="month" id="month" min="1" max="12">
+<input type="number" placeholder="year" id="year">
+
+<br>
+<button onclick="calculateAge()">Calculate Age</button>
+<br>
+<div id="result"></div>
+
+<script>
+function calculateAge() {
+    let d = parseInt(document.getElementById("day").value);
+    let m = parseInt(document.getElementById("month").value);
+    let y = parseInt(document.getElementById("year").value);
+
+    if(!d || !m || !y) {
+        alert("ادخل التاريخ كامل من فضلك");
+        return;
+    }
+
+    let birthDate = new Date(y,m-1,d);
+    let today = new Date();
+
+    let years = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+    let days = today.getDate() - birthDate.getDate();
+
+    if(days < 0){
+        months--;
+        let prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+        days += prevMonth.getDate();
+    }
+    if(months < 0) {
+        years--;
+        months += 12;
+    }
+
+    let totalDays = Math.floor((today - birthDate)/(1000*60*60*24));
+
+    let message ="نتيجه حساب العمر <br><br>";
+    message +="العمر بالسنوات :" + years + " سنه و " + months +" شهر و " + days + " يوم<br>";
+    message +="العمر بالشهور:" +( years*12 + months) + " شهر <br>";
+    message +="العمر بالايام:" + totalDays +" يوم";
+
+    document.getElementById("result").innerHTML = message;
+}
+</script>
+</body>
+</html>
